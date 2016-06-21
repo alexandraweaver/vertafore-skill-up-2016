@@ -1,0 +1,21 @@
+Create a file named app.ts (you can name it anything) and add the following contents:
+
+class Demo{}
+Copy
+Remember, class is valid JavaScript. This is just a demo to show the output of the compiler.
+
+Now open a terminal and run the tsc command against that file:
+
+tsc main.ts
+Copy
+You'll see a file created called app.js with the contents:
+
+var Demo = (function () {
+    function Demo() {
+    }
+    return Demo;
+}());
+Copy
+tsc has compiled your app.ts into an app.js following the "old" way of creating classes in JavaScript.
+
+Try tsc app.ts -t ES6. This will "target" ES6 and use the "new" way of creating classes. So the contents of app.ts and app.js would be the same.

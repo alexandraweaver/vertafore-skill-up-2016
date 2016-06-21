@@ -1,0 +1,79 @@
+Choose a Module Loader
+
+TypeScript compiles out to many different module formats, but does not include a module loader. In the future (maybe 2017?), browsers will support loading modules natively, so this won't be an issue, but for now we need to load the modules ourselves
+
+Installing Webpack and "Awesome TypeScript Loader"
+
+Webpack is a widely used tool for building web projects and supports many varieties of loaders. The loader we'll use is called awesome-typescript-loader.
+
+Install webpack, a dev server, and awesome-typescript-loader with the following command:
+
+npm install webpack webpack-dev-server typescript awesome-typescript-loader
+Copy
+Configuring Webpack
+
+Webpack is extremely flexible and has a large collection of plugins, loaders, and other helpers so as you browse around online you'll see many different approaches on how to configure your project. The basic gist:
+
+entry - the "root" file that references all other loaded files
+output - where to output the compiled the bundle
+resolve - which files to look through
+module.loaders - which installed loaders to use against which patterns
+Create a file called webpack.config.js and paste the following contents:
+
+module.exports = {
+    entry: {
+        'main': './main.ts'
+    },
+    output: {
+        path: './',
+        filename: 'bundle.js'
+    },
+
+    resolve: {
+        extensions: ['', '.ts', '.js'],
+    },
+
+    devtool: 'source-map',
+
+    module: {
+        loaders: [
+            {
+                test: /\.ts$/,
+                loader: 'awesome-typescript-loader'
+            }
+        ]
+    }
+};
+Copy
+Adding a Dev Server
+
+In your package.json, you now add a build and a server script which will build and serve the project repsectively:
+
+//[...]
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "server": "webpack-dev-server --inline --colors --progress --display-error-details --display-cached --port 3000 --content ./"
+  },
+//[...]
+Copy
+Create Your index.html
+
+Your index.html at the root of your project should look like the following:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>egghead.training</title>
+</head>
+<body>
+    <script src="bundle.js"></script>
+</body>
+</html>
+Copy
+Notice the bundle.js in the index.html is the bundle being compiled by webpack.
+
+Running the Server
+
+Finally, from the terminal you can run npm run server to serve your project.

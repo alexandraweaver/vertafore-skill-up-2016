@@ -1,0 +1,30 @@
+type
+
+Anywhere in your codebase you can define and export/import arbitrary types (which resemble object definitions):
+
+type Food = {
+    color:string
+}
+
+const apple = {color:"red"};
+Copy
+interface
+
+You can also create the same type contract using a more traditional interface approach (which resemble class definitions):
+
+interface Food{
+    color:string
+}
+
+const apple = {color:"red"};
+Copy
+Optional
+
+If certain properties/methods aren't required, you can mark them optional with a ?:
+
+type Food = {
+    color?:string
+}
+
+const apple:Food = {};
+Copy

@@ -1,0 +1,6 @@
+arrow functions do not create new scope, so you no longer need to use var that = this
+
+ul>li*10>{$} creates a list of 10 numbers 1-10 ($ makes #s)
+
+ES6 features like arrow functions & classes do not add new functionality;
+instead they are a new way of writing the old functionality

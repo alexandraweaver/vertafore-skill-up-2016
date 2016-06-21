@@ -1,0 +1,31 @@
+Definition Files
+
+A defintion files (d.ts) provides type information for external libraries.
+
+lib.d.ts
+
+TypeScript ships with a definition file that covers all the DOM methods, events, etc, so you don't have to worry about installing anything to work with the DOM.
+
+The Near Future (TypeScript 2.0)
+
+https://blogs.msdn.microsoft.com/typescript/2016/06/15/the-future-of-declaration-files/
+
+npm install lodash @types/lodash
+
+Currently
+
+For the time being, you need a project called "typings" to manage all your definition files:
+
+npm install -g typings
+
+typings allows you to install, save, manage definition files through your terminal:
+
+From the main registry:
+
+typings install lodash --save
+
+From the legacy dt (Definitely Typed) registry:
+
+typings install dt~jquery --global --save
+
+These commands add definition files to a the typings directory which tsc will resolve (unless you explicity exclude them in your tsconfig.json).
