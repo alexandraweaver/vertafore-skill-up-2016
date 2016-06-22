@@ -1,0 +1,143 @@
+GOAL: Strong grasp on how to build a single, basic feature in Angular 2
+Clean Code: https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
+
+
+WHY ANGULAR 2?
+Distills best practices of Angular 1
+By focusing on standards, we get twice the power with half the framework
+Dramatically improved change detection with a relentless focus on speed and performance
+Uses ES6 classes
+Reactive mechanisms baked into the framework (observables that stream data structure into interface)
+Angular team is working with people from other projects
+Renders and runs quickly
+Can push changes from top to bottom, don't have to watch, no need for change detection
+
+DIAGRAM
+Imperative logic and declarative mockup
+Component is ES6 class that you attach a template to
+Component is a directive with a template
+Services (business logic) are injected into components
+Services are usually classes
+
+BOOTSTRAPPING YOUR APP
+Import bootstrap module
+Import your top-level component
+Import application dependencies
+Call bootstrap and pass in your top component as the first parameter and an array of dependencies as the second
+
+MODULES
+Uses ES6 module syntax
+Angular 2 use modules as the core mechanism for composition; one per file
+./ indicates starting at this o=point; otherwise will default to node_modules file
+
+COMPONENTS
+Components are ES6 classes
+Providers (services) are injected in the constructor
+Need to explicitly define providers and directives within the component decoration so you can override services on a per component basis
+Hook into the component lifecycle with hooks
+Properties and methods of the component class are available to the template
+ngOnInit(): function called after component is initialized
+
+METADATA
+Metadata allows Angular to process a class
+Can attach with Typescript using decorators (functions)
+@Component() is most common
+Similar to directive definitition object in Angular 1
+
+TEMPLATE
+HTML that tells Angular how to render a component
+Include data bindings, components, and directives
+Angular 2 leverages native DOM events and properties which dramatically reduces the need for a ton of built-in directives
+Angular 2 leverages shadow DOM to do some really interesting things with view encapsulation
+Can encapsulate styles directly to component using shadow DOM; can have styles array in Mmtadata
+Preserves styles as it is passed around
+Component bound to template via property binding
+Template bound to component via event binding
+Embrace small, specific components; test: can your template fit comfortably inline
+
+DATA BINDING
+Enables data to flow from the component to template and v/v
+Brackets for properties; similar to array notation
+Parentheses for events; similar to function notation
+Combine property and event bindings to get two way binding [()]
+
+SERVICES
+Service is generally just a class
+Should only do one specific thing
+Should annotate with injectable (@Injectable()
+
+DIRECTIVE
+A class decorated with @Directive()
+
+
+ARCHITECTURAL BEST PRACTICES
+Include all files pertinent to a component in the same folder
+Remember CIDER for creating component
+Keep templates small enough to put in the main component file directly
+Delegate business logic from the component to a provider
+Don't be afraid to split a component up if it is growing too large
+Constantly consider change detection implications as you develop the app
+CIDER: Create class, Import dependencies, Decorate class, Enhance with composition, Repeat for sub-components
+Skinny controller, fat models
+
+BOOTSTRAPPING
+Can bootstrap to multiple platforms
+Electron: can take a web app and turn it into a desktop app
+In @Component, define selector, and that will how you access it in HTML
+@Component({
+  selector: 'app',
+  template:`
+  <div class="container">
+  <i class="fa fa-star" aria-hidden="true"></i>
+  Hello World!
+  <i class="fa fa-star" aria-hidden="true"></i>
+</div>
+`
+})
+
+index.html
+<app></app>
+Every component must have a selector and a template
+Template can be HTML or HTML file
+A directive only needs a selector
+All components are directives, not all directives are components
+
+Can only bootstrap one component at a time, cause can only have one root-level component
+
+COMPONENT FUNDAMENTALS
+Class
+Import
+Decorate
+Enhance with properties and methods
+Enhance with injectables
+Lifecycle Hooks
+
+CLASSES
+Class !== Inheritance
+Favor composition over inheritance
+Classes are a compositional tool
+
+IMPORT
+The core Angular dependencies
+3rd party dependencies
+Custom dependencies
+Gives up more fine-grained control over managing dependencies
+
+CLASS DECORATORS
+Turn class into something Angular 2 can use by decorating it with Angular specific metadata
+User the @<decorator> syntax to decorate your classes
+Most common member decorators are @Input and @Output
+
+
+Dependencies need private keyword
+Private automatically assigns to an instance variable on the class
+
+LIFECYCLE HOOKS
+
+
+Can define local template variables with #
+
+Template tag says don't render on first load
+Local variable will only update when an additional change event happens
+
+
