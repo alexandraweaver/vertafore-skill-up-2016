@@ -140,4 +140,34 @@ Can define local template variables with #
 Template tag says don't render on first load
 Local variable will only update when an additional change event happens
 
+App = view + controller
+Big apps & controllers are hard to manage and test
+Solution 1: routes
+Solution 2: directive
+Break things into pieces aka components
+Surface for a component is its selector
+Create custom event and property bindings; can pass in objects
+
+Component Contracts are like APIs
+They define how the component communicates to the world via input and output
+@Input() signifies that it is an input and that the parent may change it and then it will render it
+
+Smart and Dumb Components
+Smart: responsible for high level, loading in data, handling events & passing events to service
+Dumb: accept data from parent component, when event happens, it broadcasts back to the parent for it to handle
+Want to create few smart componenets and lots of dumb components
+Smart components hold logic and data
+Still want to keep smart components thin and make the service do most of the work
+
+ISOLATED SCOPE
+http://onehungrymind.com/infographic-understanding-angularjs-isolated-scope/
+Input one-way binding isolated scope
+Output expression isolated scope
+By default, components have isolated scope
+You can only affect a component via its inputs and outputs
+
+* in front of ng if modifying the DOM
+
+{{object|json}} will show object in JSON form
+
 
