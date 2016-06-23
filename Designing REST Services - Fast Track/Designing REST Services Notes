@@ -1,0 +1,358 @@
+Designing REST Services – Fast Track
+
+Daniel Hinojosa
+https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation.pdf
+
+
+Architecture is the important part of your app that holds it together
+RMI: binary way of communicating with a server (old technique)
+
+Web
+Coupling is to the returned form; can request a different form
+
+Design Principles
+Connect architectural principles to operational properties
+Choose combinations to meet desired qualities
+Constraints on endpoints: how we set up an identity, ID, content type, etc
+Architectural style: a named, coordinated set of architectural constraints
+
+Desired Properties
+Performance
+Scalability
+Generality
+Simplicity
+Modifiability: generating interfaces so you can implement it however you want
+Extensibility: out or up; shouldn’t have to care about where servers are located or their specifics
+
+Client Server
+Client talks to a server & v/v
+Client does not store the data, it reacts to what the server has
+Server produces, client consumes
+
+Stateless Client Server
+Load Balancer in between clients and servers
+Can send information to servers for them to process
+Location transparacy useful for REST design
+Client is in charge of their own state
+Do not know what server they will talk to, load balancer handles that
+Client thinks load balancer is server
+Scale out
+
+Stateless Client Server with Cache and Uniform Interface
+Caches on clients and servers (not all required)
+Uniform interface for multiple servers is desired; allows for encapsulation
+
+Layered Stateless Client Server with Cache and Uniform Interface
+Combination of all the above
+Emphasis on data safety
+
+Modularity
+Reduce complexity via decomposition
+Where are these services located?
+Can be broken down into multiple services that talk to each other
+Loose coupling for independence
+High cohesion within the module (ex: book, author, genre in one module)
+Visible properties via interface (/genre/history)
+Information hiding and encapsulation: hide the private information, want to be able to change things within the module
+Want endpoints to stay the same, no matter what changes in the module
+Increase modularity
+Modules talk to each other; no circular architecture allowed; avoid bidirectional traffic
+
+Integrated Architecture
+Very tightly coupled and reliant
+Complete control of entire system
+Analogy: Mac
+
+Modular Architecture
+Able to change things
+Doesn’t matter if they are implemented differently
+Fast & efficient within modules, talking between modules is less effiencent
+Analogy: PC, custom built
+
+Results of Modularity
+Reduced coordination of design decisions
+Easier to understand, build, and test: can build and test in isolation, then integrate with the rest of the architecture
+Interface can constrain innovation
+May impact performance
+
+Layering
+Form of modularity with additional constrains
+Control the interactions to downward dependencies
+Flexibility of assigning functionality to layers
+Bottom 2 layers will rarely change
+Applications on top will change
+T to B: Application, transport, Internet, physical
+Application: SMTP, HTTP, SIP, RTP, FTP
+Transport: TCP, UDP
+Internet: IP
+Physical: On & In
+TCP over IP
+
+Horizontal and Vertical
+
+
+End-to-end Principle
+https://en.wikipedia.org/wiki/End-to-end_principle
+
+Net neutrality vs billing based on bandwidth
+Net neutrality: “the principle that Internet service providers should enable access to all content and applications regardless of the source, and without favoring or blocking particular products or websites.” – Google 
+
+Architectural Implications of Layering
+Difficult to guess future uses
+Network is robust due to simplicity
+Network is unaware of what is running on it
+Users control which applications get attached to the network
+
+RMM: Richardson Maturity Level
+Models how we connect to a service on a remote machine
+Level 0: empty box
+Fill it with REST identities
+Can create a coding system for various properties, ex: standard codes for states and counties
+Describe answers to questions such as: What is it? How are they doing it? Where is it?
+“The function of a name is to facilitate sharing.” – Ross J. Anderson
+“When systems become large, the scale-up problems are not liner; there is often a qualitative change in complexity.” – Ross J. Anderson
+RMM Level 1: adds a URL (identity)
+RMM Level 2: adds a HTTP request
+Now you can interact with a URL via an action
+Calling a URL with or without parameters and having it return something is like a function
+RMM Level 3: adds Hyper Media
+Hyper media: an extension to hypertext providing multimedia facilities, such as those handling sound and video.
+
+
+
+Naming Scheme Properties
+Identity
+Disambiguation: very clear
+Scope
+Resolvability: definite, lasting
+URL: resolvable name
+URN: stable name, unresolvable
+URI: general scheme, combination of URL and URN (?)
+Uniform Naming Scheme
+RDF: “The Resource Description Framework (RDF) is a family of World Wide Web Consortium(W3C) specifications[1] originally designed as a metadata data model. It has come to be used as a general method for conceptual description or modeling of information that is implemented in web resources, using a variety of syntax notations and data serialization formats.” - https://en.wikipedia.org/wiki/Resource_Description_Framework
+
+What REST Says About URLs
+A resource can be pointed to in different ways, can find it via multiple paths
+Take time to design your URLs well
+Resources for the current time
+http://example.com/time/timezone/EDT
+http://example.com/time/timezone/PDT
+http://example.com/time/state/us/hawaii
+Canonical vs historical
+Canonical:
+Historical: archive
+Global naming leads to global network effects
+Any resource anywhere can be given a URI
+“Cool URIs don’t change”: https://www.w3.org/Provider/Style/URI.html
+
+Bad:
+http://example.org/account/12345 (unique)
+http://example.org/account/new (list) -> what if account ID is “new”?
+http://example.org/accounts/new (bad; don’t use “magic s”)
+
+Better:
+http://example.org/account/id/12345 
+http://example.org/account/status/new 
+id is content type, id list/plural is representation, so use ID
+Don’t mix representation with identity
+
+http://example.org/v2/account/id/12345 (identity smell)
+Don’t want to leak technology or version in URL
+Don’t mix identity with representation
+Versioning should be a separate aspect
+
+http://example.org/account/new/state/nm/city/albuquerque
+Identity: http://example.org/account/new 
+Should implement as query string: new?state=nm&city=Albuquerque or new;state=nm;city=Albuquerque (matrix API)
+
+http://nile.com/movies?title=&genre=&year=&rating=
+http://nile.com/movies/id/1234/reviews
+http://nile.com/movies/id/1234/actors
+http://nile.com/actor/id/1234/movies
+
+
+Design an information space for: county library system, fast food restaurant, package delivery service, museum, radio station, micro-blogging site, movie or music database, or sports league
+
+Sample identities (URI/URLs)
+Root: threegals.com
+Acceptance headers for languages
+
+Root/country/menu/food/breakfast, lunch, or dinner (/burgers, /sandwiches, etc)
+Root/country/menu/drinks
+Root/country/menu/combo(s)
+Root/country/menu/deal(s)
+
+Root/country/location?state=WA&city=Seattle (state & city as query string)
+
+Root/country/order/chooseItems/orderID
+Root/country/order/cart/orderID
+Root/country/order/checkout/orderID
+Root/country/order/status/orderID
+
+Root/country/contact/form
+Root/country/career/form
+
+
+Root/order?location=4&type=pickip&drink=Yerba_Mate
+
+Instead of:
+Root/customer/id/123
+Root/customer/telephone/1234567890
+
+Do:
+Root/customer/id/123
+Root/customer/id/123/telephone/1234567890
+
+
+
+
+Interaction
+Applications interact with a code base via a REST API
+REST API first, then code
+
+GET
+Idempotent: unchanged in value when operated on by itself
+
+POST
+Sends to server and it’s up to the server to do what they want with it
+State may not exist on the server side (?)
+Not idempotent
+
+PUT
+Updates
+Can be idempotent, may not already exist
+Idempotent
+
+DELETE
+Sends a delete command to the server
+Server will figure out how it wants to delete it
+Idempotent
+
+HEAD
+Gives metadata for content from server
+
+OPTIONS
+Returns server status, what calls are allowed and what it can accept for patches, content type, etag (identifier for the content), etc
+Info returned is based on credentials
+
+PATCH
+File merge; difference 
+Checks for the same etag, if something has changed, it gives it a new one
+May be idempotent, etag helps
+Different people changing a resource
+Put replaces entire resource, patch changes part of it
+
+TRACE
+
+Response Codes: 2XX
+200: OK
+201: Created
+202: Accepted
+204: Success
+
+Response Codes: 3XX
+301: moved permamnenty
+302: found
+303: see other
+304: not modified
+
+Response Codes: 4XX
+400 bad request
+401: unauthorized
+403 forbidden
+404: not found
+405: method not allowed
+409: conflict
+411 length required (how big is the info you are sending)
+413: entity too long
+415: unsupported media type
+
+Response Codes: 5XX
+500: Internal Error
+503: Server Not Found
+
+
+
+From Your Chosen Domain Identify
+Roles
+Mapping of roles to resources
+Mapping of verbs to resource per role
+Canonical vs historical views of resources
+Candidates for bookmarking
+
+Customer: GET & some POST, PUT, PATCH, & DELETE for ordering
+Admin: GET, modify information via POST, PUT, PATCH, & DELETE
+
+Resources: menu items, deals, combos, locations, order, career, contact
+Menu items, deals, combos, locations, career, contact: customer can GET; admin can GET, POST, PUT, PATCH, & DELETE
+Orders: customer can GET, POST, & DELETE; admin can GET
+
+Everything is canonical b/c paths won’t change
+Everything is bookmarkable except order
+OPTIONS: public; info returned will be based on role
+
+
+
+Resource is URL, not all URLs are resources
+Historical: resource/path changes
+Canonical: resource doesn’t change
+
+Canonical: not changed but can be removed
+Don’t want to point to two different resources that are the same
+Don’t want file extension in URL; mixing identity with representation; opening up to attacks b/c leaking info
+Can instead specify language, file extensions, and encoding, etc in the request header
+
+Content Negotiation (Conneg)
+Conversations between the client and server
+Allows incremental extension and evolution without breaking existing clients
+Can weight what applications you select
+Can put account href in header; can link in canonical if resource & content(?) won’t change
+
+<account href=http://example.com/account/id/1234>
+<id> 1234</id>
+<link rel=”open” href=http://example.com/account/id/1234?status=open/>
+</account>
+
+What You Can Get From A RESTful Endpoint (Hypermedia Factors aka HRefs); rel is relation
+Embedded links (LE)
+Outbound links (LO) text/uri-list
+Link Template aka URI Template (LT)
+Non-idempotent Links (LN)
+Idempotent Links (LI)
+Read Context (CR)
+Update Context (CU)
+Method Context (CM)
+Link Context (CL)
+
+text/uri-list: LO
+application/svg+xml: LE, LO
+application/atom+xml: LE, LO, LN, LI
+application/html: all except CR & LI
+application/vnd.amundsen.maze+xml: CL, LI
+Relative links based on the data received
+Domain-specific
+App semantics
+Meaningful links (rel)
+application/vnd.collections+json: all except CR, CU, CM
+
+Form Extension: a form placed into an action with a PUT method
+
+Media Selection Considerations
+Domain-specific
+Domain-general
+Application semantics
+Transfer semantics
+
+API Changes
+Add a resource
+Remove a resource
+Change implementation of a resource
+Link 2 resources in representation
+Add new data to a representation
+Remove data from a representation
+Rename/reshape data in a representation
+
+Versioning
+Need versioning if you change the structure/representation of an object
+Want default implementation to be the old one, then tell people about next version so they can implement it without it breaking
+Include version in HTTP request Accept, not in URL
